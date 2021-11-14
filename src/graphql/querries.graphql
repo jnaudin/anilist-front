@@ -1,0 +1,9 @@
+query getByPopularity {
+  MediaList(sort: MEDIA_POPULARITY_DESC, type: ANIME) {
+    id
+  }
+}
+
+query getGenres {
+  GenreCollection
+}
