@@ -2,6 +2,7 @@ import { SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { useGetGenresQuery } from "./generated/graphql";
+import { MangaList } from "./MangaList";
 import { Select } from "./ui/Select/Select";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             setGenre(event.target.value as string)
           }
         />
+        <MangaList genre={genre} />
       </main>
     </div>
   );

@@ -4590,10 +4590,15 @@ export type YearStats = {
   year?: Maybe<Scalars['Int']>;
 };
 
-export type GetByPopularityQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetMediaPageQueryVariables = Exact<{
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  search?: Maybe<Scalars['String']>;
+  genre?: Maybe<Scalars['String']>;
+}>;
 
 
-export type GetByPopularityQuery = { __typename?: 'Query', MediaList?: { __typename?: 'MediaList', id: number } | null | undefined };
+export type GetMediaPageQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', pageInfo?: { __typename?: 'PageInfo', total?: number | null | undefined, perPage?: number | null | undefined } | null | undefined, media?: Array<{ __typename?: 'Media', id: number, type?: MediaType | null | undefined, genres?: Array<string | null | undefined> | null | undefined, title?: { __typename?: 'MediaTitle', romaji?: string | null | undefined, english?: string | null | undefined, native?: string | null | undefined } | null | undefined, coverImage?: { __typename?: 'MediaCoverImage', medium?: string | null | undefined, large?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type GetGenresQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4601,40 +4606,61 @@ export type GetGenresQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetGenresQuery = { __typename?: 'Query', GenreCollection?: Array<string | null | undefined> | null | undefined };
 
 
-export const GetByPopularityDocument = gql`
-    query getByPopularity {
-  MediaList(sort: MEDIA_POPULARITY_DESC, type: ANIME) {
-    id
+export const GetMediaPageDocument = gql`
+    query getMediaPage($page: Int, $perPage: Int, $search: String, $genre: String) {
+  Page(page: $page, perPage: $perPage) {
+    pageInfo {
+      total
+      perPage
+    }
+    media(search: $search, type: ANIME, sort: FAVOURITES_DESC, genre: $genre) {
+      id
+      title {
+        romaji
+        english
+        native
+      }
+      type
+      genres
+      coverImage {
+        medium
+        large
+      }
+    }
   }
 }
     `;
 
 /**
- * __useGetByPopularityQuery__
+ * __useGetMediaPageQuery__
  *
- * To run a query within a React component, call `useGetByPopularityQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetByPopularityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetMediaPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMediaPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetByPopularityQuery({
+ * const { data, loading, error } = useGetMediaPageQuery({
  *   variables: {
+ *      page: // value for 'page'
+ *      perPage: // value for 'perPage'
+ *      search: // value for 'search'
+ *      genre: // value for 'genre'
  *   },
  * });
  */
-export function useGetByPopularityQuery(baseOptions?: Apollo.QueryHookOptions<GetByPopularityQuery, GetByPopularityQueryVariables>) {
+export function useGetMediaPageQuery(baseOptions?: Apollo.QueryHookOptions<GetMediaPageQuery, GetMediaPageQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetByPopularityQuery, GetByPopularityQueryVariables>(GetByPopularityDocument, options);
+        return Apollo.useQuery<GetMediaPageQuery, GetMediaPageQueryVariables>(GetMediaPageDocument, options);
       }
-export function useGetByPopularityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetByPopularityQuery, GetByPopularityQueryVariables>) {
+export function useGetMediaPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMediaPageQuery, GetMediaPageQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetByPopularityQuery, GetByPopularityQueryVariables>(GetByPopularityDocument, options);
+          return Apollo.useLazyQuery<GetMediaPageQuery, GetMediaPageQueryVariables>(GetMediaPageDocument, options);
         }
-export type GetByPopularityQueryHookResult = ReturnType<typeof useGetByPopularityQuery>;
-export type GetByPopularityLazyQueryHookResult = ReturnType<typeof useGetByPopularityLazyQuery>;
-export type GetByPopularityQueryResult = Apollo.QueryResult<GetByPopularityQuery, GetByPopularityQueryVariables>;
+export type GetMediaPageQueryHookResult = ReturnType<typeof useGetMediaPageQuery>;
+export type GetMediaPageLazyQueryHookResult = ReturnType<typeof useGetMediaPageLazyQuery>;
+export type GetMediaPageQueryResult = Apollo.QueryResult<GetMediaPageQuery, GetMediaPageQueryVariables>;
 export const GetGenresDocument = gql`
     query getGenres {
   GenreCollection

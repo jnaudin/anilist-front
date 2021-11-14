@@ -1,6 +1,28 @@
-query getByPopularity {
-  MediaList(sort: MEDIA_POPULARITY_DESC, type: ANIME) {
-    id
+query getMediaPage($page: Int, $perPage: Int, $search: String, $genre: String) {
+  Page(page: $page, perPage: $perPage) {
+    pageInfo {
+      total
+      perPage
+    }
+    media(
+      search: $search
+      type: ANIME
+      sort: FAVOURITES_DESC
+      genre: $genre
+    ) {
+      id
+      title {
+        romaji
+        english
+        native
+      }
+      type
+      genres
+      coverImage {
+        medium
+        large
+      }
+    }
   }
 }
 
