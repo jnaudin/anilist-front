@@ -7,6 +7,6 @@ interface ButtonProps extends MuiButtonProps {
   label: string;
 }
 
-export const Button = ({ size = "medium", label, ...props }: ButtonProps) => {
+export const Button = ({ label, ...props }: ButtonProps) => {
   return <MuiButton {...props}>{label}</MuiButton>;
 };
