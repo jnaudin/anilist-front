@@ -9,13 +9,15 @@ interface SelectProps extends MuiSelectProps {
   options: { label: string; value: string }[];
 }
 
-export const Select = ({ options, ...props }: SelectProps) => {
+export const Select = ({ options, label, ...props }: SelectProps) => {
   return (
     <>
-      <InputLabel id="demo-simple-select-label">Age</InputLabel>
+      {label && <InputLabel id="demo-simple-select-label">{label}</InputLabel>}
       <MuiSelect {...props}>
         {options.map(({ label, value }) => (
-          <MenuItem value={value}>{label}</MenuItem>
+          <MenuItem key={value} value={value}>
+            {label}
+          </MenuItem>
         ))}
       </MuiSelect>
     </>
